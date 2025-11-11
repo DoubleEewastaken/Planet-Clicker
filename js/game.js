@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const gameArea = document.getElementById("game-area");
+  const gameWidth = gameArea.clientWidth;
+  const gameHeight = gameArea.clientHeight;
+  const upgradesWidth = document.getElementById("upgrades").offsetWidth;
+
   let planets = [];
 
   function spawnPlanet() {
@@ -15,17 +19,52 @@ document.addEventListener("DOMContentLoaded", () => {
     planetEl.style.background = `radial-gradient(circle at 30% 30%, hsl(${hue},70%,60%), #111)`;
     planetEl.style.boxShadow = `0 0 20px 5px hsl(${hue},80%,50%)`;
 
-    const x = Math.random()*(gameArea.clientWidth - size);
-    const y = Math.random()*(gameArea.clientHeight - size);
+    // Stay within game area
+    const x = Math.random()*(gameWidth - size - upgradesWidth);
+    const y = Math.random()*(gameHeight - size);
     planetEl.style.left = x + "px";
     planetEl.style.top = y + "px";
 
-    const value = Math.ceil(size / 20);
+    // Special planet type
+    let isGold = Math.random() < 0.1; // 10% chance
+    let value = Math.ceil(size/20);
+    if(isGold){
+      planetEl.style.background = "gold";
+      value *= 3;
+      planetEl.dataset.special = "gold";
+    }
+
     planetEl.dataset.value = value;
 
     planetEl.addEventListener("click", () => {
       gameState.clicks++;
       gameState.credits += (gameState.clickValue + gameState.perks.clickBonus) * gameState.multiplier * value;
+
+      // Sound
+      if(!gameState.muted){
+        const audio = new Audio("assets/sounds/click.mp3");
+        audio.volume = 0.3;
+        audio.play();
+      }
+
+      // Particle effect
+      for(let i=0;i<10;i++){
+        const p = document.createElement("div");
+        p.classList.add("particle");
+        p.style.background = isGold?"gold":"white";
+        p.style.left = (x + size/2) + "px";
+        p.style.top = (y + size/2) + "px";
+        gameArea.appendChild(p);
+
+        const dx = (Math.random()-0.5)*100;
+        const dy = (Math.random()-0.5)*100;
+        p.animate([
+          {transform: `translate(0px,0px)`, opacity:1},
+          {transform: `translate(${dx}px,${dy}px)`, opacity:0}
+        ], {duration:500});
+        setTimeout(()=>p.remove(),500);
+      }
+
       planetEl.remove();
       planets = planets.filter(p=>p!==planetEl);
       spawnPlanet();
@@ -37,4 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial planets
   for(let i=0;i<gameState.maxPlanets;i++) spawnPlanet();
+
+  // Listen for external spawn events (used in rebirth)
+  document.addEventListener('spawnPlanet', spawnPlanet);
 });

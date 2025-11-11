@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const doRebirthBtn = document.getElementById("do-rebirth");
   const rebirthRequiredSpan = document.getElementById("rebirth-required");
+  const rebirthModal = document.getElementById("rebirth-modal");
 
   function updateRebirthUI(){
     rebirthRequiredSpan.textContent = Math.floor(gameState.rebirthCost);
   }
-
   updateRebirthUI();
 
   doRebirthBtn.addEventListener("click", ()=>{
     if(gameState.credits >= gameState.rebirthCost){
-      // Reset game values
+      // Reset game state
       gameState.credits = 0;
       gameState.clicks = 0;
       gameState.clickValue = 1;
@@ -31,13 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const gameArea = document.getElementById("game-area");
       gameArea.innerHTML = "";
       for(let i=0;i<gameState.maxPlanets + gameState.perks.maxPlanetBonus;i++){
-        const evt = new Event('spawnPlanet'); 
+        const evt = new Event('spawnPlanet');
         document.dispatchEvent(evt);
       }
 
       updateRebirthUI();
-      document.getElementById("rebirth-modal").classList.remove("active");
-    }else{
+      rebirthModal.classList.remove("active");
+    } else {
       alert("Not enough credits to rebirth!");
     }
   });

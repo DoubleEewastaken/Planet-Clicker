@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     autoSave: true
   };
 
-  // Update stats
+  // Stats UI update
   function updateUI() {
     document.getElementById("credits").textContent = Math.floor(gameState.credits);
     document.getElementById("clicks").textContent = gameState.clicks;
@@ -25,8 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Passive income
   setInterval(() => {
-    const totalPassive = gameState.passiveIncome + gameState.perks.passiveBonus;
-    gameState.credits += totalPassive;
+    gameState.credits += gameState.passiveIncome + gameState.perks.passiveBonus;
   }, 1000);
 
   // Auto-save
