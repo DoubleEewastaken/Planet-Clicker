@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const gameArea = document.getElementById("game-area");
-  const upgradesWidth = document.getElementById("upgrades").offsetWidth;
-  const gameWidth = gameArea.clientWidth;
-  const gameHeight = gameArea.clientHeight;
   let planets = [];
 
   function spawnPlanet() {
@@ -11,26 +8,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const planetEl = document.createElement("div");
     planetEl.classList.add("planet");
 
-    const size = 50 + Math.random()*50;
-    const hue = Math.random()*360;
-    planetEl.style.width = size+"px";
-    planetEl.style.height = size+"px";
-    planetEl.style.background = `hsl(${hue},70%,60%)`;
-    planetEl.style.left = Math.random()*(gameWidth-size-upgradesWidth)+"px";
-    planetEl.style.top = Math.random()*(gameHeight-size)+"px";
-    planetEl.style.position = "absolute";
+    const size = 40 + Math.random() * 50;
+    const hue = Math.random() * 360;
+    planetEl.style.width = size + "px";
+    planetEl.style.height = size + "px";
+    planetEl.style.left = Math.random() * (gameArea.clientWidth - size - 10) + "px";
+    planetEl.style.top = Math.random() * (gameArea.clientHeight - size - 10) + "px";
 
-    let isGold = Math.random() < 0.1;
+    let type = "normal";
     let value = 4;
-    if(isGold){
-      planetEl.style.background = "gold";
-      value *= 3;
-    }
+    if(Math.random() < 0.1){ type="rare"; planetEl.style.background = "gold"; value *= 3; }
+    else if(Math.random() < 0.2){ type="debris"; planetEl.style.background = "gray"; value = 1; }
+    else planetEl.style.background = `hsl(${hue},70%,60%)`;
+
+    let health = type == "normal" ? 1 : type == "rare" ? 2 : 1;
+    let dx = (Math.random() - 0.5) * 0.5;
+    let dy = (Math.random() - 0.5) * 0.5;
+
     planetEl.dataset.value = value;
+    planetEl.dataset.health = health;
+
+    function movePlanet() {
+      const left = parseFloat(planetEl.style.left) + dx;
+      const top = parseFloat(planetEl.style.top) + dy;
+      if(left>0 && left<gameArea.clientWidth-size) planetEl.style.left = left+"px";
+      if(top>0 && top<gameArea.clientHeight-size) planetEl.style.top = top+"px";
+      requestAnimationFrame(movePlanet);
+    }
+    movePlanet();
 
     planetEl.addEventListener("click", () => {
       gameState.clicks++;
       gameState.credits += (gameState.clickValue + gameState.perks.clickBonus) * gameState.multiplier * value;
+
+      let newHealth = parseInt(planetEl.dataset.health) - 1;
+      if(newHealth <= 0){
+        planetEl.remove();
+        planets = planets.filter(p => p !== planetEl);
+        spawnPlanet();
+      } else planetEl.dataset.health = newHealth;
 
       // Particles
       for(let i=0;i<10;i++){
@@ -38,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         p.classList.add("particle");
         p.style.left = parseInt(planetEl.style.left)+size/2+"px";
         p.style.top = parseInt(planetEl.style.top)+size/2+"px";
-        p.style.background = isGold?"gold":"white";
+        p.style.background = type=="rare"?"gold":type=="debris"?"gray":"white";
         gameArea.appendChild(p);
         const dx = (Math.random()-0.5)*100;
         const dy = (Math.random()-0.5)*100;
@@ -46,23 +62,27 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(()=>p.remove(),500);
       }
 
-      // Sound
+      // Floating text
+      const ft = document.createElement("div");
+      ft.classList.add("floating-text");
+      ft.textContent = "+" + ((gameState.clickValue + gameState.perks.clickBonus) * gameState.multiplier * value);
+      ft.style.left = parseInt(planetEl.style.left)+size/2+"px";
+      ft.style.top = parseInt(planetEl.style.top)+"px";
+      gameArea.appendChild(ft);
+      ft.animate([{transform:"translateY(0px)",opacity:1},{transform:"translateY(-50px)",opacity:0}],{duration:1000});
+      setTimeout(()=>ft.remove(),1000);
+
       if(!gameState.muted){
         const audio = new Audio("assets/sounds/click.mp3");
         audio.volume = 0.3;
         audio.play();
       }
-
-      planetEl.remove();
-      planets = planets.filter(p=>p!==planetEl);
-      spawnPlanet();
     });
 
     planets.push(planetEl);
     gameArea.appendChild(planetEl);
   }
 
-  // Initial planets
   for(let i=0;i<gameState.maxPlanets;i++) spawnPlanet();
   document.addEventListener("spawnPlanet", spawnPlanet);
 });

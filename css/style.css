@@ -1,13 +1,12 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #000;
+  background: radial-gradient(ellipse at center, #000 0%, #05020d 100%);
   color: #fff;
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
 
-/* Game area */
 #game-area {
   position: absolute;
   top: 0;
@@ -16,9 +15,9 @@ body {
   height: 100%;
   overflow: hidden;
   z-index: 1;
+  background: url('../assets/images/stars.png') repeat;
 }
 
-/* Planets */
 .planet {
   position: absolute;
   border-radius: 50%;
@@ -27,20 +26,16 @@ body {
   transition: transform 0.1s;
 }
 
-.planet:hover {
-  transform: scale(1.1);
-}
+.planet:hover { transform: scale(1.1); }
 
-/* Particles */
-.particle {
+.particle, .floating-text {
   position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
   pointer-events: none;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 3px black;
 }
 
-/* Upgrades panel */
 #upgrades {
   position: absolute;
   top: 0;
@@ -54,9 +49,7 @@ body {
   z-index: 1000;
 }
 
-#upgrades h2 {
-  text-align: center;
-}
+#upgrades h2 { text-align: center; }
 
 #upgrades button {
   display: block;
@@ -72,11 +65,8 @@ body {
   transition: background 0.2s;
 }
 
-#upgrades button:hover {
-  background-color: #444;
-}
+#upgrades button:hover { background-color: #444; }
 
-/* Top-left buttons */
 #top-left {
   position: absolute;
   top: 10px;
@@ -98,11 +88,8 @@ body {
   transition: background 0.2s;
 }
 
-#top-left button:hover {
-  background-color: #444;
-}
+#top-left button:hover { background-color: #444; }
 
-/* Bottom-left stats */
 #bottom-left {
   position: absolute;
   bottom: 10px;
@@ -110,7 +97,4 @@ body {
   z-index: 1000;
 }
 
-#bottom-left p {
-  margin: 2px 0;
-  font-size: 14px;
-}
+#bottom-left p { margin: 2px 0; font-size: 14px; }

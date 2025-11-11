@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     clickValue: 1,
     passiveIncome: 0,
     multiplier: 1,
-    maxPlanets: 3,
+    maxPlanets: 1,
     rebirthLevel: 0,
     rebirthCost: 1000,
-    perks: { clickBonus:0, passiveBonus:0, maxPlanetBonus:0 },
+    perks: { clickBonus: 0, passiveBonus: 0, maxPlanetBonus: 0 },
     muted: false,
     autoSave: true
   };
@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("passive").textContent = `${gameState.passiveIncome + gameState.perks.passiveBonus}/sec`;
     document.getElementById("rebirth-level").textContent = gameState.rebirthLevel;
   }
+
   setInterval(updateUI, 500);
 
   // Passive income
@@ -26,14 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.credits += gameState.passiveIncome + gameState.perks.passiveBonus;
   }, 1000);
 
-  // Auto-save
-  function saveGame(){
-    if(gameState.autoSave) localStorage.setItem('spaceClickerSave', JSON.stringify(gameState));
-  }
-  function loadGame(){
-    const save = localStorage.getItem('spaceClickerSave');
-    if(save) Object.assign(gameState, JSON.parse(save));
-  }
+  // Auto-save/load
+  function saveGame(){ if(gameState.autoSave) localStorage.setItem('spaceClickerSave', JSON.stringify(gameState)); }
+  function loadGame(){ const save = localStorage.getItem('spaceClickerSave'); if(save) Object.assign(gameState, JSON.parse(save)); }
   loadGame();
   setInterval(saveGame, 30000);
 });
