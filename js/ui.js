@@ -1,22 +1,28 @@
-const prestigeBtn = document.getElementById("prestige-btn");
-const settingsBtn = document.getElementById("settings-btn");
-const adBtn = document.getElementById("ad-btn");
-const muteBtn = document.getElementById("mute-btn");
+document.addEventListener("DOMContentLoaded", () => {
+  const settingsModal = document.getElementById("settings-modal");
+  const rebirthModal = document.getElementById("rebirth-modal");
 
-const settingsModal = document.getElementById("settings-modal");
-const closeSettings = document.getElementById("close-settings");
+  document.getElementById("settings-btn").addEventListener("click", () => {
+    settingsModal.classList.add("active");
+  });
+  document.getElementById("close-settings").addEventListener("click", () => {
+    settingsModal.classList.remove("active");
+  });
 
-const toggleAudio = document.getElementById("toggle-audio");
-const toggleAutoSave = document.getElementById("toggle-autosave");
+  document.getElementById("toggle-audio").addEventListener("change", e => gameState.muted = !e.target.checked);
+  document.getElementById("toggle-autosave").addEventListener("change", e => gameState.autoSave = e.target.checked);
 
-settingsBtn.addEventListener("click",()=>settingsModal.classList.add("active"));
-closeSettings.addEventListener("click",()=>settingsModal.classList.remove("active"));
+  document.getElementById("prestige-btn").addEventListener("click", () => {
+    rebirthModal.classList.add("active");
+  });
+  document.getElementById("close-rebirth").addEventListener("click", () => {
+    rebirthModal.classList.remove("active");
+  });
 
-toggleAudio.addEventListener("change", e=>gameState.muted=!e.target.checked);
-toggleAutoSave.addEventListener("change", e=>gameState.autoSave=e.target.checked);
-
-adBtn.addEventListener("click",()=>alert("Ad system coming soon!"));
-muteBtn.addEventListener("click",()=>{
-  gameState.muted=!gameState.muted;
-  muteBtn.textContent = gameState.muted?"🔇":"🔊";
+  document.getElementById("ad-btn").addEventListener("click", ()=>alert("Ads coming soon!"));
+  const muteBtn = document.getElementById("mute-btn");
+  muteBtn.addEventListener("click", () => {
+    gameState.muted = !gameState.muted;
+    muteBtn.textContent = gameState.muted?"🔇":"🔊";
+  });
 });

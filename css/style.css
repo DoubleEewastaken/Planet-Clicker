@@ -15,13 +15,14 @@ body {
   float: left;
 }
 
-/* Planet */
+/* Planets */
 .planet {
   position: absolute;
   border-radius: 50%;
   cursor: crosshair;
   opacity: 1;
   transition: transform 0.2s ease, opacity 0.2s ease;
+  z-index: 10;
 }
 
 /* Upgrades panel */
@@ -80,23 +81,4 @@ body {
   border-radius: 10px;
   font-size: 14px;
   line-height: 1.4;
-}
-
-/* Modals */
-.modal {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(10,10,30,0.95);
-  border: 1px solid #555;
-  padding: 20px;
-  border-radius: 12px;
-  color: white;
-  z-index: 1000;
-}
-
-.modal.active {
-  display: block;
 }
