@@ -8,6 +8,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeSettings = document.getElementById("close-settings");
   const rebirthModal = document.getElementById("rebirth-modal");
   const closeRebirth = document.getElementById("close-rebirth");
+document.addEventListener("DOMContentLoaded", () => {
+  const resetBtn = document.getElementById("reset-btn");
+
+  resetBtn.addEventListener("click", () => {
+    if(confirm("Are you sure you want to reset all progress?")) {
+      // Clear local storage
+      localStorage.removeItem("spaceClickerSave");
+
+      // Reset gameState
+      gameState.credits = 0;
+      gameState.clicks = 0;
+      gameState.clickValue = 1;
+      gameState.passiveIncome = 0;
+      gameState.multiplier = 1;
+      gameState.maxPlanets = 3;
+      gameState.rebirthLevel = 0;
+      gameState.rebirthCost = 1000;
+      gameState.perks = {clickBonus:0, passiveBonus:0, maxPlanetBonus:0};
+      gameState.muted = false;
+
+      // Clear game area and spawn initial planets
+      const gameArea = document.getElementById("game-area");
+      gameArea.innerHTML = "";
+      for(let i=0;i<gameState.maxPlanets;i++){
+        document.dispatchEvent(new Event("spawnPlanet"));
+      }
+
+      alert("Game has been reset!");
+    }
+  });
+});
 
   muteBtn.addEventListener("click", () => {
     gameState.muted = !gameState.muted;
