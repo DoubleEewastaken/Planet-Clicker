@@ -4,20 +4,18 @@
   <meta charset="UTF-8" />
   <title>Space Clicker</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/modal.css" />
 </head>
 <body>
-  <!-- Top left buttons -->
+  <!-- Top-left buttons -->
   <div id="top-left">
-  <button id="prestige-btn">Prestige</button>
-  <button id="settings-btn">⚙️</button>
-  <button id="ad-btn">🎬</button>
-  <button id="mute-btn">🔊</button>
-  <button id="reset-btn">Reset</button> <!-- New Reset button -->
-</div>
+    <button id="rebirth-btn">Rebirth</button>
+    <button id="settings-btn">Settings</button>
+    <button id="mute-btn">🔊</button>
+    <button id="ad-btn">Ad</button>
+    <button id="reset-btn">Reset</button>
+  </div>
 
-
-  <!-- Bottom left stats -->
+  <!-- Bottom-left stats -->
   <div id="bottom-left">
     <p>Credits: <span id="credits">0</span></p>
     <p>Clicks: <span id="clicks">0</span></p>
@@ -28,36 +26,14 @@
   <!-- Game area -->
   <div id="game-area"></div>
 
-  <!-- Upgrades -->
+  <!-- Upgrades panel -->
   <div id="upgrades">
     <h2>Upgrades</h2>
-  </div>
-
-  <!-- Settings modal -->
-  <div id="settings-modal" class="modal">
-    <div class="modal-content">
-      <h3>Settings</h3>
-      <label><input type="checkbox" id="toggle-audio" checked> Audio</label><br>
-      <label><input type="checkbox" id="toggle-autosave" checked> Auto-save</label><br>
-      <button id="close-settings">Close</button>
-    </div>
-  </div>
-
-  <!-- Rebirth modal -->
-  <div id="rebirth-modal" class="modal">
-    <div class="modal-content">
-      <h3>Rebirth</h3>
-      <p>Credits Required: <span id="rebirth-required">1000</span></p>
-      <button id="do-rebirth">Rebirth</button>
-      <button id="close-rebirth">Close</button>
-    </div>
   </div>
 
   <script src="js/main.js"></script>
   <script src="js/game.js"></script>
   <script src="js/upgrades.js"></script>
-  <script src="js/settings.js"></script>
   <script src="js/ui.js"></script>
-  <script src="js/rebirth.js"></script>
 </body>
 </html>

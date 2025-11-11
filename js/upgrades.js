@@ -12,14 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
   upgrades.forEach(u => {
     const btn = document.createElement("button");
     btn.textContent = `${u.name} — Cost: ${u.cost}`;
-    btn.style.display="block";
-    btn.style.width="100%";
-    btn.style.marginBottom="5px";
     btn.addEventListener("click", () => {
       if(gameState.credits >= u.cost){
         gameState.credits -= u.cost;
         u.effect();
-        u.cost = Math.floor(u.cost * 1.5);
+        u.cost = Math.floor(u.cost*1.5);
         btn.textContent = `${u.name} — Cost: ${u.cost}`;
       }
     });

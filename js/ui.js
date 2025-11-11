@@ -1,55 +1,51 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const rebirthBtn = document.getElementById("rebirth-btn");
+  const settingsBtn = document.getElementById("settings-btn");
   const muteBtn = document.getElementById("mute-btn");
   const adBtn = document.getElementById("ad-btn");
-  const prestigeBtn = document.getElementById("prestige-btn");
-  const settingsBtn = document.getElementById("settings-btn");
-
-  const settingsModal = document.getElementById("settings-modal");
-  const closeSettings = document.getElementById("close-settings");
-  const rebirthModal = document.getElementById("rebirth-modal");
-  const closeRebirth = document.getElementById("close-rebirth");
-document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("reset-btn");
 
-  resetBtn.addEventListener("click", () => {
-    if(confirm("Are you sure you want to reset all progress?")) {
-      // Clear local storage
-      localStorage.removeItem("spaceClickerSave");
+  // Mute
+  muteBtn.addEventListener("click", () => {
+    gameState.muted = !gameState.muted;
+    muteBtn.textContent = gameState.muted?"🔇":"🔊";
+  });
 
-      // Reset gameState
+  // Ad
+  adBtn.addEventListener("click", () => alert("Ad system coming soon!"));
+
+  // Settings
+  settingsBtn.addEventListener("click", () => alert("Settings coming soon!"));
+
+  // Rebirth
+  rebirthBtn.addEventListener("click", () => {
+    if(gameState.credits >= gameState.rebirthCost){
       gameState.credits = 0;
       gameState.clicks = 0;
       gameState.clickValue = 1;
       gameState.passiveIncome = 0;
       gameState.multiplier = 1;
       gameState.maxPlanets = 3;
-      gameState.rebirthLevel = 0;
-      gameState.rebirthCost = 1000;
-      gameState.perks = {clickBonus:0, passiveBonus:0, maxPlanetBonus:0};
-      gameState.muted = false;
+      gameState.rebirthLevel++;
+      gameState.rebirthCost *= 1.15;
+      gameState.perks.clickBonus++;
+      gameState.perks.passiveBonus++;
+      gameState.perks.maxPlanetBonus++;
 
-      // Clear game area and spawn initial planets
       const gameArea = document.getElementById("game-area");
       gameArea.innerHTML = "";
-      for(let i=0;i<gameState.maxPlanets;i++){
+      for(let i=0;i<gameState.maxPlanets+gameState.perks.maxPlanetBonus;i++){
         document.dispatchEvent(new Event("spawnPlanet"));
       }
+      alert("Rebirth complete! Perks applied.");
+    } else alert("Not enough credits to rebirth!");
+  });
 
-      alert("Game has been reset!");
+  // Reset
+  resetBtn.addEventListener("click", () => {
+    if(confirm("Reset all progress?")){
+      localStorage.removeItem("spaceClickerSave");
+      location.reload();
     }
   });
-});
-
-  muteBtn.addEventListener("click", () => {
-    gameState.muted = !gameState.muted;
-    muteBtn.textContent = gameState.muted ? "🔇" : "🔊";
-  });
-
-  adBtn.addEventListener("click", ()=>alert("Ad system coming soon!"));
-
-  settingsBtn.addEventListener("click", ()=>settingsModal.classList.add("active"));
-  closeSettings.addEventListener("click", ()=>settingsModal.classList.remove("active"));
-
-  prestigeBtn.addEventListener("click", ()=>rebirthModal.classList.add("active"));
-  closeRebirth.addEventListener("click", ()=>rebirthModal.classList.remove("active"));
 });

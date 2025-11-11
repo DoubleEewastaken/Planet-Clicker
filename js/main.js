@@ -13,13 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
     autoSave: true
   };
 
-  // UI updates
   function updateUI() {
     document.getElementById("credits").textContent = Math.floor(gameState.credits);
     document.getElementById("clicks").textContent = gameState.clicks;
     document.getElementById("passive").textContent = `${gameState.passiveIncome + gameState.perks.passiveBonus}/sec`;
     document.getElementById("rebirth-level").textContent = gameState.rebirthLevel;
-    document.getElementById("rebirth-required").textContent = Math.floor(gameState.rebirthCost);
   }
   setInterval(updateUI, 500);
 
