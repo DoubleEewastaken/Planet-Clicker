@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const doRebirthBtn = document.getElementById("do-rebirth");
-  const rebirthRequiredSpan = document.getElementById("rebirth-required");
+  const rebirthRequired = document.getElementById("rebirth-required");
   const rebirthModal = document.getElementById("rebirth-modal");
 
   function updateRebirthUI(){
-    rebirthRequiredSpan.textContent = Math.floor(gameState.rebirthCost);
+    rebirthRequired.textContent = Math.floor(gameState.rebirthCost);
   }
   updateRebirthUI();
 
-  doRebirthBtn.addEventListener("click", ()=>{
+  doRebirthBtn.addEventListener("click", () => {
     if(gameState.credits >= gameState.rebirthCost){
-      // Reset main game stats
+      // Reset stats
       gameState.credits = 0;
       gameState.clicks = 0;
       gameState.clickValue = 1;
@@ -18,21 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.multiplier = 1;
       gameState.maxPlanets = 3;
 
-      // Rebirth level
+      // Rebirth level and perks
       gameState.rebirthLevel++;
       gameState.rebirthCost *= 1.15;
-
-      // Apply perks
       gameState.perks.clickBonus++;
       gameState.perks.passiveBonus++;
       gameState.perks.maxPlanetBonus++;
 
-      // Clear old planets and spawn new ones
+      // Respawn planets
       const gameArea = document.getElementById("game-area");
       gameArea.innerHTML = "";
       for(let i=0;i<gameState.maxPlanets + gameState.perks.maxPlanetBonus;i++){
-        const evt = new Event('spawnPlanet');
-        document.dispatchEvent(evt);
+        document.dispatchEvent(new Event("spawnPlanet"));
       }
 
       updateRebirthUI();
