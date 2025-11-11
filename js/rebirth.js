@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   doRebirthBtn.addEventListener("click", ()=>{
     if(gameState.credits >= gameState.rebirthCost){
-      // Reset game state
+      // Reset main game stats
       gameState.credits = 0;
       gameState.clicks = 0;
       gameState.clickValue = 1;
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.multiplier = 1;
       gameState.maxPlanets = 3;
 
-      // Increase rebirth
+      // Rebirth level
       gameState.rebirthLevel++;
       gameState.rebirthCost *= 1.15;
 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.perks.passiveBonus++;
       gameState.perks.maxPlanetBonus++;
 
-      // Respawn planets
+      // Clear old planets and spawn new ones
       const gameArea = document.getElementById("game-area");
       gameArea.innerHTML = "";
       for(let i=0;i<gameState.maxPlanets + gameState.perks.maxPlanetBonus;i++){
