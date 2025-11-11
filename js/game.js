@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const upgradesWidth = document.getElementById("upgrades").offsetWidth;
   const gameWidth = gameArea.clientWidth;
   const gameHeight = gameArea.clientHeight;
-
   let planets = [];
 
   function spawnPlanet() {
@@ -16,53 +15,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const hue = Math.random() * 360;
     planetEl.style.width = size + "px";
     planetEl.style.height = size + "px";
-    planetEl.style.background = `radial-gradient(circle at 30% 30%, hsl(${hue},70%,60%), #111)`;
-    planetEl.style.boxShadow = `0 0 20px 5px hsl(${hue},80%,50%)`;
+    planetEl.style.background = `hsl(${hue},70%,60%)`;
+    planetEl.style.borderRadius = "50%";
+    planetEl.style.position = "absolute";
+    planetEl.style.left = Math.random()*(gameWidth-size-upgradesWidth) + "px";
+    planetEl.style.top = Math.random()*(gameHeight-size) + "px";
 
-    // Stay inside game area
-    const x = Math.random() * (gameWidth - size - upgradesWidth);
-    const y = Math.random() * (gameHeight - size);
-    planetEl.style.left = x + "px";
-    planetEl.style.top = y + "px";
-
-    // Special planet type
+    // Special planet
     let isGold = Math.random() < 0.1;
-    let value = Math.ceil(size / 20);
+    let value = 4;
     if(isGold){
       planetEl.style.background = "gold";
       value *= 3;
       planetEl.dataset.special = "gold";
     }
-
     planetEl.dataset.value = value;
 
     planetEl.addEventListener("click", () => {
       gameState.clicks++;
       gameState.credits += (gameState.clickValue + gameState.perks.clickBonus) * gameState.multiplier * value;
 
-      // Sound
-      if(!gameState.muted){
-        const audio = new Audio("assets/sounds/click.mp3");
-        audio.volume = 0.3;
-        audio.play();
-      }
-
       // Particle effect
       for(let i=0;i<10;i++){
         const p = document.createElement("div");
         p.classList.add("particle");
         p.style.background = isGold?"gold":"white";
-        p.style.left = (x + size/2) + "px";
-        p.style.top = (y + size/2) + "px";
+        p.style.left = (parseInt(planetEl.style.left)+size/2)+"px";
+        p.style.top = (parseInt(planetEl.style.top)+size/2)+"px";
         gameArea.appendChild(p);
-
         const dx = (Math.random()-0.5)*100;
         const dy = (Math.random()-0.5)*100;
-        p.animate([
-          {transform: `translate(0px,0px)`, opacity:1},
-          {transform: `translate(${dx}px,${dy}px)`, opacity:0}
-        ], {duration:500});
+        p.animate([{transform:`translate(0,0)`, opacity:1},{transform:`translate(${dx}px,${dy}px)`,opacity:0}],{duration:500});
         setTimeout(()=>p.remove(),500);
+      }
+
+      // Sound
+      if(!gameState.muted){
+        const audio = new Audio("assets/sounds/click.mp3");
+        audio.volume = 0.3;
+        audio.play();
       }
 
       planetEl.remove();
@@ -77,6 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial planets
   for(let i=0;i<gameState.maxPlanets;i++) spawnPlanet();
 
-  // Listen for external spawn events (used in rebirth)
+  // Spawn event
   document.addEventListener('spawnPlanet', spawnPlanet);
 });

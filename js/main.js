@@ -13,13 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
     autoSave: true
   };
 
-  // Stats UI update
+  // UI updates
   function updateUI() {
     document.getElementById("credits").textContent = Math.floor(gameState.credits);
     document.getElementById("clicks").textContent = gameState.clicks;
     document.getElementById("passive").textContent = `${gameState.passiveIncome + gameState.perks.passiveBonus}/sec`;
     document.getElementById("rebirth-level").textContent = gameState.rebirthLevel;
-    document.getElementById("rebirth-cost").textContent = Math.floor(gameState.rebirthCost);
+    document.getElementById("rebirth-required").textContent = Math.floor(gameState.rebirthCost);
   }
   setInterval(updateUI, 500);
 
@@ -29,16 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 1000);
 
   // Auto-save
-  setInterval(() => {
-    if(gameState.autoSave) saveGame();
-  }, 30000);
-
-  function saveGame() {
-    localStorage.setItem('spaceClickerSave', JSON.stringify(gameState));
+  function saveGame(){
+    if(gameState.autoSave) localStorage.setItem('spaceClickerSave', JSON.stringify(gameState));
   }
-  function loadGame() {
+  function loadGame(){
     const save = localStorage.getItem('spaceClickerSave');
     if(save) Object.assign(gameState, JSON.parse(save));
   }
   loadGame();
+  setInterval(saveGame, 30000);
 });

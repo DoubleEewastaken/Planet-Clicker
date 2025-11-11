@@ -1,17 +1,10 @@
-.modal {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(10,10,30,0.95);
-  border: 1px solid #555;
-  padding: 20px;
-  border-radius: 12px;
-  color: white;
-  z-index: 1000;
+/* Optional: extra styling for modals if needed */
+.modal h3 {
+  margin-top: 0;
 }
 
-.modal.active {
+.modal label {
   display: block;
+  margin: 8px 0;
+  font-size: 14px;
 }
