@@ -1,42 +1,39 @@
-const planet = document.getElementById("planet");
-
-function randomPos() {
-  const areaW = window.innerWidth - 150;
-  const areaH = window.innerHeight - 150;
-  const x = Math.random() * areaW;
-  const y = Math.random() * areaH;
-  planet.style.left = `${x}px`;
-  planet.style.top = `${y}px`;
-}
+const gameArea = document.getElementById("game-area");
+let planets = [];
 
 function spawnPlanet() {
-  const size = 80 + Math.random() * 50;
-  const hue = Math.random() * 360;
-  planet.style.width = `${size}px`;
-  planet.style.height = `${size}px`;
-  planet.style.background = `radial-gradient(circle at 30% 30%, hsl(${hue}, 70%, 60%), #111)`;
-  planet.style.boxShadow = `0 0 25px 5px hsl(${hue}, 80%, 50%)`;
-  planet.style.opacity = 1;
-  planet.style.transform = "scale(1)";
-  randomPos();
+  if(planets.length >= gameState.maxPlanets + gameState.perks.maxPlanetBonus) return;
+
+  const planetEl = document.createElement("div");
+  planetEl.classList.add("planet");
+
+  const size = 50 + Math.random()*50;
+  const hue = Math.random()*360;
+  planetEl.style.width = size + "px";
+  planetEl.style.height = size + "px";
+  planetEl.style.background = `radial-gradient(circle at 30% 30%, hsl(${hue},70%,60%), #111)`;
+  planetEl.style.boxShadow = `0 0 20px 5px hsl(${hue},80%,50%)`;
+
+  const x = Math.random()*(gameArea.clientWidth - size);
+  const y = Math.random()*(gameArea.clientHeight - size);
+  planetEl.style.left = x + "px";
+  planetEl.style.top = y + "px";
+
+  const value = Math.ceil(size/20); // larger planets give more
+  planetEl.dataset.value = value;
+
+  planetEl.addEventListener("click", ()=>{
+    gameState.clicks++;
+    gameState.credits += (gameState.clickValue + gameState.perks.clickBonus) * gameState.multiplier * value;
+
+    planetEl.remove();
+    planets = planets.filter(p=>p!==planetEl);
+    spawnPlanet();
+  });
+
+  planets.push(planetEl);
+  gameArea.appendChild(planetEl);
 }
 
-planet.addEventListener("click", () => {
-  gameState.clicks++;
-  gameState.credits += gameState.clickValue * gameState.multiplier;
-
-  // click animation
-  planet.style.transform = "scale(1.5)";
-  planet.style.opacity = 0;
-
-  setTimeout(spawnPlanet, 200);
-});
-
-// passive income loop
-setInterval(() => {
-  if (gameState.passiveIncome > 0) {
-    gameState.credits += gameState.passiveIncome;
-  }
-}, 1000);
-
-spawnPlanet();
+// initial planets
+for(let i=0;i<gameState.maxPlanets;i++) spawnPlanet();

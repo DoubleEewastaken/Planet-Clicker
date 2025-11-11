@@ -1,34 +1,24 @@
-const laserBtn = document.getElementById("upgrade-laser");
-const minerBtn = document.getElementById("upgrade-miner");
-const multBtn = document.getElementById("upgrade-mult");
+const upgradesDiv = document.getElementById("upgrades");
 
-let laserCost = 50;
-let minerCost = 100;
-let multCost = 200;
+const upgrades = [
+  {name:"Laser Upgrade", type:"click", cost:10, effect:()=>gameState.clickValue++},
+  {name:"Auto Miner", type:"passive", cost:20, effect:()=>gameState.passiveIncome++},
+  {name:"Planet Multiplier", type:"multiplier", cost:50, effect:()=>gameState.multiplier*=2},
+  {name:"More Planets", type:"planet", cost:100, effect:()=>gameState.maxPlanets++}
+];
 
-laserBtn.addEventListener("click", () => {
-  if (gameState.credits >= laserCost) {
-    gameState.credits -= laserCost;
-    gameState.clickValue++;
-    laserCost = Math.floor(laserCost * 1.8);
-    laserBtn.textContent = `Upgrade Laser (+1 / click) — Cost: ${laserCost}`;
-  }
-});
+function createUpgradeButton(upg){
+  const btn = document.createElement("button");
+  btn.textContent = `${upg.name} — Cost: ${upg.cost}`;
+  btn.addEventListener("click", ()=>{
+    if(gameState.credits>=upg.cost){
+      gameState.credits -= upg.cost;
+      upg.effect();
+      upg.cost = Math.floor(upg.cost*1.5);
+      btn.textContent = `${upg.name} — Cost: ${upg.cost}`;
+    }
+  });
+  upgradesDiv.appendChild(btn);
+}
 
-minerBtn.addEventListener("click", () => {
-  if (gameState.credits >= minerCost) {
-    gameState.credits -= minerCost;
-    gameState.passiveIncome++;
-    minerCost = Math.floor(minerCost * 2);
-    minerBtn.textContent = `Buy Auto Miner (+1/sec) — Cost: ${minerCost}`;
-  }
-});
-
-multBtn.addEventListener("click", () => {
-  if (gameState.credits >= multCost) {
-    gameState.credits -= multCost;
-    gameState.multiplier *= 2;
-    multCost = Math.floor(multCost * 2.5);
-    multBtn.textContent = `Planet Multiplier (x${gameState.multiplier}) — Cost: ${multCost}`;
-  }
-});
+upgrades.forEach(u=>createUpgradeButton(u));

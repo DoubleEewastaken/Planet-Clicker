@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Space Clicker</title>
+  <title>Space Clicker Phase 2</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/modal.css" />
 </head>
 <body>
   <!-- Top left buttons -->
   <div id="top-left">
-    <button id="prestige-btn">Prestige</button>
+    <button id="prestige-btn">Rebirth</button>
     <button id="settings-btn">⚙️</button>
     <button id="ad-btn">🎬</button>
     <button id="mute-btn">🔊</button>
@@ -20,25 +20,45 @@
     <p>Credits: <span id="credits">0</span></p>
     <p>Clicks: <span id="clicks">0</span></p>
     <p>Passive: <span id="passive">0/sec</span></p>
+    <p>Rebirth Level: <span id="rebirth-level">0</span></p>
+    <p>Next Rebirth: <span id="rebirth-cost">1000</span></p>
   </div>
 
   <!-- Game area -->
-  <div id="game-area">
-    <div id="planet"></div>
-  </div>
+  <div id="game-area"></div>
 
   <!-- Upgrades -->
   <div id="upgrades">
     <h2>Upgrades</h2>
-    <button id="upgrade-laser">Upgrade Laser (+1 / click) — Cost: 50</button>
-    <button id="upgrade-miner">Buy Auto Miner (+1/sec) — Cost: 100</button>
-    <button id="upgrade-mult">Planet Multiplier (x2) — Cost: 200</button>
+  </div>
+
+  <!-- Modals -->
+  <div id="settings-modal" class="modal">
+    <h3>Settings</h3>
+    <label>
+      <input type="checkbox" id="toggle-audio" checked /> Audio
+    </label>
+    <br/>
+    <label>
+      <input type="checkbox" id="toggle-autosave" checked /> Auto-Save
+    </label>
+    <br/><br/>
+    <button id="close-settings">Close</button>
+  </div>
+
+  <div id="rebirth-modal" class="modal">
+    <h3>Rebirth Menu</h3>
+    <p>Rebirth gives permanent perks!</p>
+    <p>Required Credits: <span id="rebirth-required">1000</span></p>
+    <button id="do-rebirth">Rebirth Now</button>
+    <button id="close-rebirth">Close</button>
   </div>
 
   <script src="js/main.js"></script>
   <script src="js/game.js"></script>
-  <script src="js/ui.js"></script>
   <script src="js/upgrades.js"></script>
+  <script src="js/ui.js"></script>
   <script src="js/settings.js"></script>
+  <script src="js/rebirth.js"></script>
 </body>
 </html>
