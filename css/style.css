@@ -1,17 +1,20 @@
 body {
   background: radial-gradient(circle at center, #0b0b2b, #000);
   color: white;
-  text-align: center;
-  overflow: hidden;
   font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  overflow: hidden;
 }
 
+/* Game area */
 #game-area {
-  width: 100vw;
-  height: 80vh;
   position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
+/* Planet styling */
 #planet {
   position: absolute;
   border-radius: 50%;
@@ -19,25 +22,66 @@ body {
   box-shadow: 0 0 25px 5px #44f;
   width: 100px;
   height: 100px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
   cursor: crosshair;
+  opacity: 1;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
+/* Upgrades on the right */
 #upgrades {
   position: fixed;
-  bottom: 20px;
-  width: 100%;
+  top: 80px;
+  right: 20px;
+  width: 260px;
+  background: rgba(20, 20, 40, 0.8);
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: left;
 }
 
-button {
+#upgrades button {
+  display: block;
+  width: 100%;
   background: #222;
   border: 1px solid #555;
   color: white;
-  padding: 10px 20px;
-  margin: 5px;
+  padding: 10px;
+  margin: 6px 0;
   border-radius: 10px;
   cursor: pointer;
+  transition: background 0.2s;
 }
-button:hover {
+
+#upgrades button:hover {
   background: #333;
+}
+
+/* Top left menu */
+#top-left {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+}
+
+#top-left button {
+  margin-right: 5px;
+  padding: 8px 10px;
+  background: #222;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Bottom left stats */
+#bottom-left {
+  position: fixed;
+  bottom: 10px;
+  left: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.4;
 }

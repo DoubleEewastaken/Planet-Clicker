@@ -10,7 +10,7 @@ laserBtn.addEventListener("click", () => {
   if (credits >= laserCost) {
     credits -= laserCost;
     clickValue++;
-    laserCost *= 2;
+    laserCost = Math.floor(laserCost * 1.8);
     laserBtn.textContent = `Upgrade Laser (+1 / click) — Cost: ${laserCost}`;
   }
 });
@@ -19,8 +19,9 @@ minerBtn.addEventListener("click", () => {
   if (credits >= minerCost) {
     credits -= minerCost;
     passiveIncome++;
-    minerCost *= 2;
+    minerCost = Math.floor(minerCost * 2);
     minerBtn.textContent = `Buy Auto Miner (+1/sec) — Cost: ${minerCost}`;
+    passiveDisplay.textContent = `${passiveIncome}/sec`;
   }
 });
 
@@ -28,7 +29,7 @@ multBtn.addEventListener("click", () => {
   if (credits >= multCost) {
     credits -= multCost;
     multiplier *= 2;
-    multCost *= 3;
+    multCost = Math.floor(multCost * 2.5);
     multBtn.textContent = `Planet Multiplier (x${multiplier}) — Cost: ${multCost}`;
   }
 });
