@@ -1,15 +1,5 @@
-let credits = 0;
-let clicks = 0;
-let clickValue = 1;
-let passiveIncome = 0;
-let multiplier = 1;
-
 const planet = document.getElementById("planet");
-const creditDisplay = document.getElementById("credits");
-const clickDisplay = document.getElementById("clicks");
-const passiveDisplay = document.getElementById("passive");
 
-// place planet in a random visible area
 function randomPos() {
   const areaW = window.innerWidth - 150;
   const areaH = window.innerHeight - 150;
@@ -32,24 +22,20 @@ function spawnPlanet() {
 }
 
 planet.addEventListener("click", () => {
-  clicks++;
-  credits += clickValue * multiplier;
-  creditDisplay.textContent = Math.floor(credits);
-  clickDisplay.textContent = clicks;
+  gameState.clicks++;
+  gameState.credits += gameState.clickValue * gameState.multiplier;
 
-  // explode effect
+  // click animation
   planet.style.transform = "scale(1.5)";
   planet.style.opacity = 0;
 
-  // after fade, respawn at new spot
   setTimeout(spawnPlanet, 200);
 });
 
-// Passive income every second
+// passive income loop
 setInterval(() => {
-  if (passiveIncome > 0) {
-    credits += passiveIncome;
-    creditDisplay.textContent = Math.floor(credits);
+  if (gameState.passiveIncome > 0) {
+    gameState.credits += gameState.passiveIncome;
   }
 }, 1000);
 

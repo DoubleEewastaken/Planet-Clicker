@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Space Clicker</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/modal.css" />
 </head>
 <body>
   <!-- Top left buttons -->
   <div id="top-left">
-    <button>Prestige</button>
-    <button>⚙️</button>
-    <button>🎬</button>
-    <button id="mute">🔊</button>
+    <button id="prestige-btn">Prestige</button>
+    <button id="settings-btn">⚙️</button>
+    <button id="ad-btn">🎬</button>
+    <button id="mute-btn">🔊</button>
   </div>
 
   <!-- Bottom left stats -->
@@ -21,12 +22,12 @@
     <p>Passive: <span id="passive">0/sec</span></p>
   </div>
 
-  <!-- Game area (center) -->
+  <!-- Game area -->
   <div id="game-area">
     <div id="planet"></div>
   </div>
 
-  <!-- Upgrades on the right -->
+  <!-- Upgrades -->
   <div id="upgrades">
     <h2>Upgrades</h2>
     <button id="upgrade-laser">Upgrade Laser (+1 / click) — Cost: 50</button>
@@ -34,7 +35,10 @@
     <button id="upgrade-mult">Planet Multiplier (x2) — Cost: 200</button>
   </div>
 
-  <script src="game.js"></script>
-  <script src="upgrades.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/upgrades.js"></script>
+  <script src="js/settings.js"></script>
 </body>
 </html>
