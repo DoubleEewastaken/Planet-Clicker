@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const gameArea = document.getElementById("game-area");
+  const upgradesWidth = document.getElementById("upgrades").offsetWidth;
   const gameWidth = gameArea.clientWidth;
   const gameHeight = gameArea.clientHeight;
-  const upgradesWidth = document.getElementById("upgrades").offsetWidth;
 
   let planets = [];
 
@@ -12,22 +12,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const planetEl = document.createElement("div");
     planetEl.classList.add("planet");
 
-    const size = 50 + Math.random()*50;
-    const hue = Math.random()*360;
+    const size = 50 + Math.random() * 50;
+    const hue = Math.random() * 360;
     planetEl.style.width = size + "px";
     planetEl.style.height = size + "px";
     planetEl.style.background = `radial-gradient(circle at 30% 30%, hsl(${hue},70%,60%), #111)`;
     planetEl.style.boxShadow = `0 0 20px 5px hsl(${hue},80%,50%)`;
 
-    // Stay within game area
-    const x = Math.random()*(gameWidth - size - upgradesWidth);
-    const y = Math.random()*(gameHeight - size);
+    // Stay inside game area
+    const x = Math.random() * (gameWidth - size - upgradesWidth);
+    const y = Math.random() * (gameHeight - size);
     planetEl.style.left = x + "px";
     planetEl.style.top = y + "px";
 
     // Special planet type
-    let isGold = Math.random() < 0.1; // 10% chance
-    let value = Math.ceil(size/20);
+    let isGold = Math.random() < 0.1;
+    let value = Math.ceil(size / 20);
     if(isGold){
       planetEl.style.background = "gold";
       value *= 3;
